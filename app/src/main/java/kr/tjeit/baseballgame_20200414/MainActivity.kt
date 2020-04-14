@@ -21,6 +21,11 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        okBtn.setOnClickListener {
+            chatings.add(Chat(inputEdt.text.toString(), "USER"))
+            mChatAdapter?.notifyDataSetChanged()
+        }
+
     }
 
     override fun setValues() {
