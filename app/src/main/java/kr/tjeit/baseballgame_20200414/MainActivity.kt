@@ -3,6 +3,7 @@ package kr.tjeit.baseballgame_20200414
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.tjeit.baseballgame_20200414.adapters.ChatAdapter
 import kr.tjeit.baseballgame_20200414.datas.Chat
@@ -62,6 +63,17 @@ class MainActivity : BaseActivity() {
     override fun setupEvents() {
 
         okBtn.setOnClickListener {
+
+            if (inputEdt.text.toString().length != 3) {
+                Toast.makeText(mContext, "세자리 숫자로 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            
+            if (inputEdt.text.toString().contains(" ")) {
+                Toast.makeText(mContext, "숫자만 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             chatings.add(Chat(inputEdt.text.toString(), "USER"))
             mChatAdapter?.notifyDataSetChanged()
         }
