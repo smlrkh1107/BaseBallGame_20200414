@@ -126,16 +126,20 @@ class MainActivity : BaseActivity() {
     },800)
 
 
+
+
         if (strikeCount == 3) {
-            chatings.add(Chat("축하합니다 ! 정답입니다.", "computer"))
-            mChatAdapter?.notifyDataSetChanged() //새로고침
+            Handler().postDelayed({ //정답 바로 뜨는거 싫다면 ? 지연을주자.
+                chatings.add(Chat("축하합니다 ! 정답입니다.", "computer"))
+                mChatAdapter?.notifyDataSetChanged() //새로고침
+
             chatings.add(Chat("${tryConunt}회만에 맞추었습니다..", "computer"))
             mChatAdapter?.notifyDataSetChanged() //새로고침
 
 //           정답이후 게임종료. (입력 그만)
             inputEdt.isEnabled = false
             okBtn.isEnabled = false
-
+            },1500) // 같은숫자면 쫘라락 같이나온단다.
         }
 
 
