@@ -98,7 +98,7 @@ class MainActivity : BaseActivity() {
     var ballCount = 0
 
 //                   0..2
-    for (i in inputNumArr){ // 사용자 입력 배열을 다루는 index
+    for (i in 0..2){ // 사용자 입력 배열을 다루는 index inputNumArr쓰면에러나넹..
         for (j in 0..2){ // 컴퓨터 입력 배열을 다루는 index
             if (computerNumbers.get(j) == inputNumArr.get(i)){ //숫자 같니?
                 if (i==j){ //위치도 같니?
