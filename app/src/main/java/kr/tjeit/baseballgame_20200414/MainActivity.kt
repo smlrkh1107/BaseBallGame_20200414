@@ -2,6 +2,7 @@ package kr.tjeit.baseballgame_20200414
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -77,10 +78,12 @@ class MainActivity : BaseActivity() {
             }
 
             chatings.add(Chat(inputEdt.text.toString(), "USER"))
-            mChatAdapter?.notifyDataSetChanged()
-            //        몇스트 몇볼이게?
-            tryConunt++
+            mChatAdapter?.notifyDataSetChanged()            //몇스트 몇볼이게?
 
+//            리스트뷰를 맨 아래로 끌어내려주는 코드. 이거없으면 사용자가 치고 스스로 스크롤 내려야함.
+            chatListView.smoothScrollToPosition(chatings.size-1) //메세지 10개면 9번칸으로 내려주세요.
+
+            tryConunt++ //시도회수증가
             checkStrikeAndBall(inputEdt.text.toString())
         }
 
@@ -112,14 +115,27 @@ class MainActivity : BaseActivity() {
         }
 
     }
-    // 총 몇개의 S/B인지 담겨있게 됨.
-    chatings.add(Chat("${strikeCount}S, ${ballCount}B 입니다.","computer"))
-    mChatAdapter?.notifyDataSetChanged() //새로고침
+
+
+
+    Handler().postDelayed({ //정답 바로 뜨는거 싫다면 ? 지연을주자.
+        // 총 몇개의 S/B인지 담겨있게 됨.
+        chatings.add(Chat("${strikeCount}S, ${ballCount}B 입니다.","computer"))
+        mChatAdapter?.notifyDataSetChanged() //새로고침
+        chatListView.smoothScrollToPosition(chatings.size-1)
+    },800)
+
+
         if (strikeCount == 3) {
             chatings.add(Chat("축하합니다 ! 정답입니다.", "computer"))
             mChatAdapter?.notifyDataSetChanged() //새로고침
             chatings.add(Chat("${tryConunt}회만에 맞추었습니다..", "computer"))
             mChatAdapter?.notifyDataSetChanged() //새로고침
+
+//           정답이후 게임종료. (입력 그만)
+            inputEdt.isEnabled = false
+            okBtn.isEnabled = false
+
         }
 
 
