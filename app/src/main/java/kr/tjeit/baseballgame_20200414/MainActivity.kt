@@ -22,6 +22,7 @@ class MainActivity : BaseActivity() {
         setupEvents()
         setValues()
         makeComputerNumber()
+
     }
 
 //    컴퓨터가 문제 출제하는 함수
@@ -76,9 +77,45 @@ class MainActivity : BaseActivity() {
 
             chatings.add(Chat(inputEdt.text.toString(), "USER"))
             mChatAdapter?.notifyDataSetChanged()
+            //        몇스트 몇볼이게?
+            checkStrikeAndBall(inputEdt.text.toString())
         }
 
     }
+
+
+//    몇스트 몇볼이게 ?
+    fun checkStrikeAndBall(inputStr:String){
+//    숫자 세자리의 String이 들어온다 => 3자리 Int배열로 분리.
+//    "381" => 3, 8, 1
+    val inputNumArr = ArrayList<Int>()
+    inputNumArr.add(inputStr.toInt()/100) //0번칸 => "381" => 381 => 381/100 => 3 (Int 소수점 버려짐)
+    inputNumArr.add((inputStr.toInt()/10)%10) //1번칸 안에 괄호 안넣어도 되네
+    inputNumArr.add(inputStr.toInt()%10) //2번칸
+
+//    inputNumArr / compuerNumvers를 비교 => ?S ?B판단.
+    var strikeCount = 0
+    var ballCount = 0
+
+//                   0..2
+    for (i in inputNumArr){ // 사용자 입력 배열을 다루는 index
+        for (j in 0..2){ // 컴퓨터 입력 배열을 다루는 index
+            if (computerNumbers.get(j) == inputNumArr.get(i)){ //숫자 같니?
+                if (i==j){ //위치도 같니?
+                    strikeCount += 1 // strike ++
+                }
+                else ballCount += 1
+            }
+        }
+
+    }
+    // 총 몇개의 S/B인지 담겨있게 됨.
+    chatings.add(Chat("${strikeCount}S, ${ballCount}B 입니다.","computer"))
+    mChatAdapter?.notifyDataSetChanged() //새로고침
+
+    }
+
+
 
     override fun setValues() {
 
