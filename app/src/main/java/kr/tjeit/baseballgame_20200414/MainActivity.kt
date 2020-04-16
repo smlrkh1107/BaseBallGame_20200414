@@ -9,6 +9,7 @@ import kr.tjeit.baseballgame_20200414.adapters.ChatAdapter
 import kr.tjeit.baseballgame_20200414.datas.Chat
 
 class MainActivity : BaseActivity() {
+    var tryConunt = 0 //정답 시도 횟수 변수
 
 //    문제 숫자 세자리가 담길 ArrayList
     val computerNumbers = ArrayList<Int>()
@@ -78,6 +79,8 @@ class MainActivity : BaseActivity() {
             chatings.add(Chat(inputEdt.text.toString(), "USER"))
             mChatAdapter?.notifyDataSetChanged()
             //        몇스트 몇볼이게?
+            tryConunt++
+
             checkStrikeAndBall(inputEdt.text.toString())
         }
 
@@ -112,6 +115,13 @@ class MainActivity : BaseActivity() {
     // 총 몇개의 S/B인지 담겨있게 됨.
     chatings.add(Chat("${strikeCount}S, ${ballCount}B 입니다.","computer"))
     mChatAdapter?.notifyDataSetChanged() //새로고침
+        if (strikeCount == 3) {
+            chatings.add(Chat("축하합니다 ! 정답입니다.", "computer"))
+            mChatAdapter?.notifyDataSetChanged() //새로고침
+            chatings.add(Chat("${tryConunt}회만에 맞추었습니다..", "computer"))
+            mChatAdapter?.notifyDataSetChanged() //새로고침
+        }
+
 
     }
 
